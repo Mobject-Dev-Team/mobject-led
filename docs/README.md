@@ -18,6 +18,6 @@ A sprinkling of OOP is usually enough to simplify and unclutter procedural code.
 
 mobject's goal is to be a lightweight solution to typical oop problems.
 
-## Why use mobject-graph?
+## Why use mobject-led?
 
 The mobject-graph library provides a consistent and simple way to handle graphics and text with LED Matrix and other LED devices.
