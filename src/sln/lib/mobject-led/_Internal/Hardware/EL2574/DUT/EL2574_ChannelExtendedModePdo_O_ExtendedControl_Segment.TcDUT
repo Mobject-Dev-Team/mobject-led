@@ -1,0 +1,19 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.15">
+  <DUT Name="EL2574_ChannelExtendedModePdo_O_ExtendedControl_Segment" Id="{6c73f0ca-70f1-08c8-1141-42307e726edc}">
+    <Declaration><![CDATA[{attribute 'GUID' := 'C34ECFC1-C235-2097-8F87-A8742B490E4F'}
+TYPE EL2574_ChannelExtendedModePdo_O_ExtendedControl_Segment :
+	STRUCT
+		Element_0 : UDINT;
+		Element_1 : UDINT;
+		Element_2 : UDINT;
+		Element_3 : UDINT;
+		Element_4 : UDINT;
+		Element_5 : UDINT;
+		Element_6 : UDINT;
+		Element_7 : UDINT;
+	END_STRUCT
+END_TYPE
+]]></Declaration>
+  </DUT>
+</TcPlcObject>

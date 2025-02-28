@@ -1,0 +1,15 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.15">
+  <Itf Name="I_WritableDisplayBuffer" Id="{4def1394-6c3b-4196-856c-6e4d846294da}">
+    <Declaration><![CDATA[INTERFACE I_WritableDisplayBuffer
+]]></Declaration>
+    <Method Name="SetPixel" Id="{38205eab-7d77-43d8-89a0-23a85b828b38}">
+      <Declaration><![CDATA[METHOD PUBLIC SetPixel
+VAR_INPUT
+	X : DINT;
+	Y : DINT;
+	Pixel : Pixel;
+END_VAR]]></Declaration>
+    </Method>
+  </Itf>
+</TcPlcObject>

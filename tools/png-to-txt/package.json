@@ -1,0 +1,17 @@
+{
+  "name": "png-to-txt",
+  "version": "0.1.0",
+  "main": "index.js",
+  "scripts": {
+    "start": "node convertMonoPngToVar.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "benhar-dev",
+  "license": "MIT",
+  "description": "",
+  "dependencies": {
+    "fs-extra": "^11.3.0",
+    "pngjs": "^7.0.0"
+  }
+}

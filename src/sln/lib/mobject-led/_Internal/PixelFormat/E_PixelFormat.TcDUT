@@ -1,0 +1,15 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.15">
+  <DUT Name="E_PixelFormat" Id="{418cf84c-0cea-08bb-10b7-e7b0dd213330}">
+    <Declaration><![CDATA[{attribute 'qualified_only'}
+{attribute 'strict'}
+TYPE E_PixelFormat :
+(
+	RRGGBBAA,
+	AARRGGBB,
+	xxRRGGBB
+);
+END_TYPE
+]]></Declaration>
+  </DUT>
+</TcPlcObject>

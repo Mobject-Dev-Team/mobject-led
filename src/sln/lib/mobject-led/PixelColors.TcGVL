@@ -1,0 +1,27 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.15">
+  <GVL Name="PixelColors" Id="{8f4d636e-5ceb-01d0-0018-7108b804689f}">
+    <Declaration><![CDATA[{attribute 'qualified_only'}
+VAR_GLOBAL CONSTANT;
+	RED : Pixel := 16#FF0000FF;
+	GREEN : Pixel := 16#00FF00FF;
+	BLUE : Pixel := 16#0000FFFF;
+	YELLOW : Pixel := 16#FFFF00FF;
+	BLACK : Pixel := 16#000000FF;
+	WHITE : Pixel := 16#FFFFFFF;
+	PURPLE : Pixel := 16#800080FF;
+	ORANGE : Pixel := 16#FFA500FF;
+	GREY : Pixel := 16#808080FF;
+	TEAL : Pixel := 16#008080FF;
+	CYAN : Pixel := 16#00FFFFF;
+	MAGENTA : Pixel := 16#FF00FFFF;
+	LIME : Pixel := 16#00FF00FF;
+	PINK : Pixel := 16#FFC0CBFF;
+	BROWN : Pixel := 16#A52A2AFF;
+	NAVY : Pixel := 16#000080FF;
+	OLIVE : Pixel := 16#808000FF;
+	MAROON : Pixel := 16#800000FF;
+	AQUA : Pixel := 16#00FFFFF;
+END_VAR]]></Declaration>
+  </GVL>
+</TcPlcObject>

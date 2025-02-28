@@ -1,0 +1,161 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.15">
+  <POU Name="LedDevice" Id="{bf7b138a-e71f-474e-b5f2-bde71e593fc7}" SpecialFunc="None">
+    <Declaration><![CDATA[{attribute 'linkalways'} 
+{attribute 'no_explicit_call' := 'This FB is a CLASS and must be accessed using methods or properties'}
+{attribute 'enable_dynamic_creation'}
+FUNCTION_BLOCK ABSTRACT LedDevice IMPLEMENTS I_LedDevice
+VAR
+	// using the null object pattern so that you no longer need to check to see if next is <> 0
+	nullLedDevice : NullLedDevice;
+	next : I_LedDevice := NullLedDevice;
+	allPixelsSerialized : BOOL;
+	_requiredPixelFormat : E_PixelFormat := E_PixelFormat.AARRGGBB;
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[]]></ST>
+    </Implementation>
+    <Folder Name="Protected" Id="{00cd9b74-aca8-4202-a016-75d6947eb20c}" />
+    <Method Name="ConnectTo" Id="{ab591227-9486-447f-acbc-3f96a3f1b41c}">
+      <Declaration><![CDATA[METHOD PUBLIC ConnectTo
+VAR_INPUT
+	LedDevice : I_LedDevice;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[IF LedDevice = 0  THEN
+	next := nullLedDevice;
+END_IF
+
+IF LedDevice = next THEN
+	RETURN;
+END_IF
+
+next := LedDevice;]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="Convert_RGBA_To_RequiredPixelFormat" Id="{644ffd3d-07b4-0a97-2f81-9324f6ba00bf}" FolderPath="Protected\">
+      <Declaration><![CDATA[METHOD PROTECTED Convert_RGBA_To_RequiredPixelFormat : Pixel
+VAR_INPUT
+	Input : Pixel;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[CASE _requiredPixelFormat OF
+	E_PixelFormat.RRGGBBAA :
+		Convert_RGBA_To_RequiredPixelFormat := Input;
+		
+	E_PixelFormat.AARRGGBB, 
+	E_PixelFormat.xxRRGGBB :
+		Convert_RGBA_To_RequiredPixelFormat := ROR(Input,8) ; 
+END_CASE]]></ST>
+      </Implementation>
+    </Method>
+    <Property Name="NextDevice" Id="{a89c84e5-4b62-432d-bed7-469d367e6ff6}">
+      <Declaration><![CDATA[PROPERTY PUBLIC NextDevice : I_LedDevice]]></Declaration>
+      <Get Name="Get" Id="{1ab9b272-4443-42cf-bbfc-bd184b77338a}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[NextDevice := next;]]></ST>
+        </Implementation>
+      </Get>
+    </Property>
+    <Method Name="OnResetPixelPointer" Id="{c76ed026-5e36-4b0d-88d4-836435ead507}" FolderPath="Protected\">
+      <Declaration><![CDATA[METHOD PROTECTED ABSTRACT OnResetPixelPointer
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[// a serializer will be instructed to reset it's own pixel tracking here. 
+// this indicates that the next time OnTryGetNextPixel is called, the first pixel must be returned;]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="OnTryGetNextPixel" Id="{a66cfd3f-d4a9-481c-af94-6c75cfe8d725}" FolderPath="Protected\">
+      <Declaration><![CDATA[METHOD PROTECTED ABSTRACT OnTryGetNextPixel : BOOL
+VAR_INPUT
+	Destination : REFERENCE TO Pixel;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[// a serializer must keep track of it's own next pixel and set the destination, and return true when called.  
+// if there are no further pixels you must return false]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="OnUpdateFrom" Id="{dc6dcb28-56a3-4f23-a958-de09b93b1543}" FolderPath="Protected\">
+      <Declaration><![CDATA[METHOD PROTECTED ABSTRACT OnUpdateFrom
+VAR_INPUT
+	Source : I_ReadableDisplayBuffer;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[]]></ST>
+      </Implementation>
+    </Method>
+    <Property Name="RequiredPixelFormat" Id="{74f7d098-4215-05b9-3c6c-fad9ee9c0355}">
+      <Declaration><![CDATA[PROPERTY PUBLIC RequiredPixelFormat : E_PixelFormat]]></Declaration>
+      <Get Name="Get" Id="{97122d21-4cc2-071a-3e65-8728f71f6bc5}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[RequiredPixelFormat := _requiredPixelFormat;]]></ST>
+        </Implementation>
+      </Get>
+      <Set Name="Set" Id="{6f6fcb17-6d4f-008e-2055-07af10a8a484}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[_requiredPixelFormat := RequiredPixelFormat;]]></ST>
+        </Implementation>
+      </Set>
+    </Property>
+    <Method Name="ResetPixelPointer" Id="{c887d760-8231-4e82-a2d3-e16a2f7c843d}">
+      <Declaration><![CDATA[METHOD PUBLIC ResetPixelPointer
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[OnResetPixelPointer();
+allPixelsSerialized := FALSE;
+NextDevice.ResetPixelPointer();]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="TryGetNextPixel" Id="{ed60c68c-2789-4be8-8aa5-708f1d4adc34}">
+      <Declaration><![CDATA[METHOD PUBLIC TryGetNextPixel : BOOL
+VAR_INPUT
+	Destination : REFERENCE TO Pixel;
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[IF allPixelsSerialized THEN
+	TryGetNextPixel := NextDevice.TryGetNextPixel(Destination);
+	RETURN;
+END_IF
+
+IF OnTryGetNextPixel(Destination) THEN
+	TryGetNextPixel := TRUE;
+	RETURN;
+END_IF
+
+allPixelsSerialized := TRUE;
+TryGetNextPixel := NextDevice.TryGetNextPixel(Destination);]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="UpdateFrom" Id="{4dd8e890-e929-4c6d-bcc3-678b4dd9c147}">
+      <Declaration><![CDATA[METHOD PUBLIC UpdateFrom
+VAR_INPUT
+	Source : I_ReadableDisplayBuffer;
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[IF Source = 0 THEN
+	RETURN;
+END_IF
+
+OnUpdateFrom(Source);]]></ST>
+      </Implementation>
+    </Method>
+  </POU>
+</TcPlcObject>

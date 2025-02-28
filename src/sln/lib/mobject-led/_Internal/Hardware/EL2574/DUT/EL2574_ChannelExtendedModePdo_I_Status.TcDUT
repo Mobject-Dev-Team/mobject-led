@@ -1,0 +1,35 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.15">
+  <DUT Name="EL2574_ChannelExtendedModePdo_I_Status" Id="{08209727-fc81-0272-1530-da35db396514}">
+    <Declaration><![CDATA[{attribute 'GUID' := '979B0B75-C706-0116-3B7C-F1DA38D9DB6C'}
+TYPE EL2574_ChannelExtendedModePdo_I_Status :
+	STRUCT
+		Busy : BIT;
+		Transmit : BIT;
+		Send_Acknowledge : BIT;
+		Update_Acknowledge : BIT;
+		Command_Acknowledge : BIT;
+		Command_Reject : BIT;
+		 {attribute 'hide'}
+		_reserved1 : BIT;
+		 {attribute 'hide'}
+		_reserved2 : BIT;
+		 {attribute 'hide'}
+		_reserved3 : BIT;
+		 {attribute 'hide'}
+		_reserved4 : BIT;
+		Warning : BIT;
+		Error : BIT;
+		 {attribute 'hide'}
+		_reserved5 : BIT;
+		 {attribute 'hide'}
+		_reserved6 : BIT;
+		 {attribute 'GUID' := '18071995-0000-0000-0000-000000000010}
+		Input_Cycle_Counter_Bit0 : BIT;
+		 {attribute 'GUID' := '18071995-0000-0000-0000-000000000010}
+		Input_Cycle_Counter_Bit1 : BIT;
+	END_STRUCT
+END_TYPE
+]]></Declaration>
+  </DUT>
+</TcPlcObject>

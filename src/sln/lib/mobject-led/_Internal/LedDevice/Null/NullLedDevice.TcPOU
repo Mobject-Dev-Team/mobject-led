@@ -1,0 +1,53 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.15">
+  <POU Name="NullLedDevice" Id="{fab2f4df-da8d-49e6-9bc2-f67d7b6e2e1f}" SpecialFunc="None">
+    <Declaration><![CDATA[{attribute 'linkalways'} 
+{attribute 'no_explicit_call' := 'This FB is a CLASS and must be accessed using methods or properties'}
+{attribute 'enable_dynamic_creation'}
+FUNCTION_BLOCK NullLedDevice IMPLEMENTS I_LedDevice
+VAR
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[]]></ST>
+    </Implementation>
+    <Method Name="ConnectTo" Id="{7b50f947-59d5-40b6-b180-649eaa212ac1}">
+      <Declaration><![CDATA[METHOD PUBLIC ConnectTo
+VAR_INPUT
+	LedDevice : I_LedDevice;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[// no code here..]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="ResetPixelPointer" Id="{e95f6546-ce6c-4320-8284-d29c00b284a4}">
+      <Declaration><![CDATA[METHOD PUBLIC ResetPixelPointer
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[// no code here..]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="TryGetNextPixel" Id="{270688c2-e2c1-49fc-b48b-faf1fd422226}">
+      <Declaration><![CDATA[METHOD PUBLIC TryGetNextPixel : BOOL
+VAR_INPUT
+	Destination : REFERENCE TO Pixel;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[TryGetNextPixel := FALSE;]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="UpdateFrom" Id="{a708afa2-8808-4a23-a4b1-a7ce443ae60b}">
+      <Declaration><![CDATA[METHOD PUBLIC UpdateFrom
+VAR_INPUT
+	Source : I_ReadableDisplayBuffer;
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[// no code here..]]></ST>
+      </Implementation>
+    </Method>
+  </POU>
+</TcPlcObject>

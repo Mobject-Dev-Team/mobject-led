@@ -1,0 +1,4 @@
+<?xml version="1.0"?>
+<TcSmItem xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://www.beckhoff.com/schemas/2012/07/TcSmProject" TcSmVersion="1.0" TcVersion="3.1.4024.65" ClassName="CNestedPlcProjDef">
+	<Project GUID="{08BF26BE-DEE9-4EC8-B9B4-1620E55BAD99}" Name="mobject-led" PrjFilePath="..\..\mobject-led\mobject-led.plcproj" TmcFilePath="..\..\mobject-led\mobject-led.tmc" ReloadTmc="true" AmsPort="851" FileArchiveSettings="#x000e"/>
+</TcSmItem>

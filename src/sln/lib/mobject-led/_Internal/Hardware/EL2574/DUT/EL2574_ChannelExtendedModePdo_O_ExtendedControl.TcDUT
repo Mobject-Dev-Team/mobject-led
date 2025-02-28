@@ -1,0 +1,27 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.15">
+  <DUT Name="EL2574_ChannelExtendedModePdo_O_ExtendedControl" Id="{437daf35-3052-051e-0cc6-e9dbdbbc4280}">
+    <Declaration><![CDATA[{attribute 'GUID' := 'FCFFC25C-7C92-C549-757B-D5CF9395F3F6'}
+{attribute 'pack_mode' := '1'}
+TYPE EL2574_ChannelExtendedModePdo_O_ExtendedControl :
+	STRUCT
+		Execute : BIT;
+		Send : BIT;
+		Update : BIT;
+		Write : BIT;
+		 {attribute 'hide'}
+		_reserved1 : BIT;
+		 {attribute 'hide'}
+		_reserved2 : BIT;
+		 {attribute 'hide'}
+		_reserved3 : BIT;
+		 {attribute 'hide'}
+		_reserved4 : BIT;
+		Index : USINT;
+		 {attribute 'GUID' := 'C34ECFC1-C235-2097-8F87-A8742B490E4F'}
+		Segment : EL2574_ChannelExtendedModePdo_O_ExtendedControl_Segment;
+	END_STRUCT
+END_TYPE
+]]></Declaration>
+  </DUT>
+</TcPlcObject>

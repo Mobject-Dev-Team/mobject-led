@@ -1,0 +1,208 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.15">
+  <POU Name="DisplayBuffer" Id="{c9865b96-3251-426d-bed6-ee392c222350}" SpecialFunc="None">
+    <Declaration><![CDATA[{attribute 'linkalways'} 
+{attribute 'no_explicit_call' := 'This FB is a CLASS and must be accessed using methods or properties'}
+{attribute 'enable_dynamic_creation'}
+FUNCTION_BLOCK DisplayBuffer IMPLEMENTS I_WritableDisplayBuffer, I_ReadableDisplayBuffer
+VAR
+	// setup
+	_width : UDINT;
+	_height : UDINT;
+	
+	// buffer
+	displayBufferSize : UDINT;
+	pDisplayBuffer : POINTER TO Pixel;
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[]]></ST>
+    </Implementation>
+    <Folder Name="Constructor" Id="{30b59fd1-32c1-4390-aa0a-5ddc02ae3b5c}" />
+    <Folder Name="Destructor" Id="{8a3aed63-2504-4a62-9276-b2f2d37ae24b}" />
+    <Folder Name="Private" Id="{84c30b15-1a78-4bd1-97a9-14aa3bc2e854}" />
+    <Method Name="Clear" Id="{79325980-3695-455c-8b2d-d93556fae3f8}">
+      <Declaration><![CDATA[METHOD PUBLIC Clear
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[IF pDisplayBuffer = 0 THEN
+	RETURN;
+END_IF
+
+memset(pDisplayBuffer, 0, displayBufferSize);]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="CreateDisplayBuffer" Id="{d092d6d9-0d76-4e24-9e05-ffebbaafcc61}" FolderPath="Private\">
+      <Declaration><![CDATA[METHOD PRIVATE CreateDisplayBuffer
+VAR
+	tempPixel : Pixel;
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[displayBufferSize := _width * _height * SIZEOF(tempPixel);
+pDisplayBuffer := __NEW(BYTE, displayBufferSize);
+memset(pDisplayBuffer, 0, displayBufferSize);]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="FB_exit" Id="{3c76b16c-5fb5-416d-a423-cf1152ec615d}" FolderPath="Destructor\">
+      <Declaration><![CDATA[METHOD FB_exit : BOOL
+VAR_INPUT
+	bInCopyCode : BOOL; // if TRUE, the exit method is called for exiting an instance that is copied afterwards (online change).
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[IF bInCopyCode THEN
+	RETURN;
+END_IF
+
+IF pDisplayBuffer = 0 THEN
+	RETURN;
+END_IF
+
+__DELETE(pDisplayBuffer);]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="FB_init" Id="{d47a0c9d-ed4f-435e-90cd-473897681783}" FolderPath="Constructor\">
+      <Declaration><![CDATA[METHOD FB_init : BOOL
+VAR_INPUT
+	bInitRetains : BOOL; // if TRUE, the retain variables are initialized (warm start / cold start)
+	bInCopyCode : BOOL;  // if TRUE, the instance afterwards gets moved into the copy code (online change)
+	Width : UDINT;
+	Height : UDINT;
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[_width := Width;
+_height := Height;
+CreateDisplayBuffer();]]></ST>
+      </Implementation>
+    </Method>
+    <Property Name="Height" Id="{68d96039-37c8-438d-94c9-104b8d8dbc27}">
+      <Declaration><![CDATA[PROPERTY PUBLIC Height : UDINT]]></Declaration>
+      <Get Name="Get" Id="{ca60e83d-68b3-41ec-8f16-495e08467b15}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[Height := _height;]]></ST>
+        </Implementation>
+      </Get>
+    </Property>
+    <Method Name="SendTo" Id="{1d46c23a-34ac-4412-89e9-10c2e84f2fbb}">
+      <Declaration><![CDATA[METHOD PUBLIC SendTo
+VAR_INPUT
+	Display : I_Display;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[Display.UpdateFrom(this^);]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="SetPixel" Id="{ee101280-fe9a-4e5a-852e-e3bcd1bd68cb}">
+      <Declaration><![CDATA[METHOD PUBLIC SetPixel
+VAR_INPUT
+	X : DINT;
+	Y : DINT;
+	Pixel : Pixel;
+END_VAR
+VAR
+	xAsUdint : UDINT;
+	yAsUdint : UDINT;
+	offset : UDINT;
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[IF X < 0 THEN
+	RETURN;
+END_IF
+
+IF Y < 0 THEN
+	RETURN;
+END_IF
+
+xAsUdint := DINT_TO_UDINT(X);
+yAsUdint := DINT_TO_UDINT(Y);
+
+IF xAsUdint >= _width THEN
+	RETURN;
+END_IF
+
+IF yAsUdint >= _height THEN
+	RETURN;
+END_IF
+
+
+offset := (yAsUdint * _width) + xAsUdint;
+
+IF offset = 176 THEN
+			offset := offset;
+		END_IF
+
+		
+pDisplayBuffer[offset] := Pixel;]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="TryCopyTo" Id="{4179eb4c-93f5-4e39-9a70-1964c8c8d76d}">
+      <Declaration><![CDATA[METHOD PUBLIC TryCopyTo : BOOL
+VAR_INPUT
+	Destination : ANY;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[IF DINT_TO_UDINT(Destination.diSize) < displayBufferSize THEN
+	RETURN;
+END_IF
+
+memcpy(Destination.pValue, pDisplayBuffer, displayBufferSize);
+TryCopyTo := true;]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="TryReadPixel" Id="{3c3d1e75-9c58-4510-b87e-9dffe21da304}">
+      <Declaration><![CDATA[METHOD PUBLIC TryReadPixel : BOOL;
+VAR_INPUT
+	X : DINT;
+	Y : DINT;
+	Pixel : REFERENCE TO Pixel;
+END_VAR
+VAR
+	xAsUdint : UDINT;
+	yAsUdint : UDINT;
+	offset : UDINT;
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[IF X < 0 THEN
+	RETURN;
+END_IF
+
+IF Y < 0 THEN
+	RETURN;
+END_IF
+
+xAsUdint := DINT_TO_UDINT(X);
+yAsUdint := DINT_TO_UDINT(Y);
+
+IF xAsUdint >= _width THEN
+	RETURN;
+END_IF
+
+IF yAsUdint >= _height THEN
+	RETURN;
+END_IF
+
+offset := (yAsUdint * _width) + xAsUdint;
+Pixel := pDisplayBuffer[offset];
+TryReadPixel := TRUE;]]></ST>
+      </Implementation>
+    </Method>
+    <Property Name="Width" Id="{f02237ad-4ba4-4c42-b440-5004a78ca346}">
+      <Declaration><![CDATA[PROPERTY PUBLIC Width : UDINT]]></Declaration>
+      <Get Name="Get" Id="{95a440c2-bc5e-4bb5-93b4-dac22037fc3c}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[Width := _width;]]></ST>
+        </Implementation>
+      </Get>
+    </Property>
+  </POU>
+</TcPlcObject>

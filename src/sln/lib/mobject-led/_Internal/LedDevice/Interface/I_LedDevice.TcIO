@@ -1,0 +1,32 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.15">
+  <Itf Name="I_LedDevice" Id="{1b8cc47e-34ff-499b-a9f6-4d022b370077}">
+    <Declaration><![CDATA[INTERFACE I_LedDevice EXTENDS I_Display
+]]></Declaration>
+    <Method Name="ConnectTo" Id="{3d386719-ae8c-4d9c-b65d-39f64c511c37}">
+      <Declaration><![CDATA[METHOD PUBLIC ConnectTo
+VAR_INPUT
+	LedDevice : I_LedDevice;
+END_VAR]]></Declaration>
+    </Method>
+    <Method Name="ResetPixelPointer" Id="{cd438b9f-08ba-43c1-a34f-98d5f639752a}">
+      <Declaration><![CDATA[METHOD PUBLIC ResetPixelPointer
+VAR_INPUT
+END_VAR
+]]></Declaration>
+    </Method>
+    <Method Name="TryGetNextPixel" Id="{21e43cb1-5489-43b4-bcc6-bf578ada4c16}">
+      <Declaration><![CDATA[METHOD PUBLIC TryGetNextPixel : BOOL
+VAR_INPUT
+	Destination : REFERENCE TO Pixel;
+END_VAR
+]]></Declaration>
+    </Method>
+    <Method Name="UpdateFrom" Id="{84894468-cbaf-43ca-af9a-680ff605d81b}">
+      <Declaration><![CDATA[METHOD PUBLIC UpdateFrom
+VAR_INPUT
+	Source : I_ReadableDisplayBuffer;
+END_VAR]]></Declaration>
+    </Method>
+  </Itf>
+</TcPlcObject>

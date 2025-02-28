@@ -1,0 +1,246 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <FileVersion>1.0.0.0</FileVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{08bf26be-dee9-4ec8-b9b4-1620e55bad99}</ProjectGuid>
+    <SubObjectsSortedByName>True</SubObjectsSortedByName>
+    <DownloadApplicationInfo>true</DownloadApplicationInfo>
+    <WriteProductVersion>true</WriteProductVersion>
+    <GenerateTpy>false</GenerateTpy>
+    <Name>mobject_led</Name>
+    <ProgramVersion>3.1.4024.0</ProgramVersion>
+    <Application>{765ec871-dbb8-4153-9600-7e21bd9263d0}</Application>
+    <TypeSystem>{a00a2af8-88ab-4558-99d3-3c53c92ad77f}</TypeSystem>
+    <Implicit_Task_Info>{f90bb153-05cc-42a2-842e-1187d35877cf}</Implicit_Task_Info>
+    <Implicit_KindOfTask>{8fed991d-9b27-40ee-843a-5f9af9260783}</Implicit_KindOfTask>
+    <Implicit_Jitter_Distribution>{35a88c9b-871c-4d03-8d3b-6973f8c51f2d}</Implicit_Jitter_Distribution>
+    <LibraryReferences>{b25b6c68-0058-4122-a1b8-2e89cdaa28bb}</LibraryReferences>
+    <Company>mobject</Company>
+    <Released>false</Released>
+    <Title>mobject-led</Title>
+    <ProjectVersion>0.1.1</ProjectVersion>
+    <DefaultNamespace>mobject-led</DefaultNamespace>
+    <Author>mobject-dev-team</Author>
+    <Placeholder>mobject-led</Placeholder>
+    <LibraryCategories>
+      <LibraryCategory xmlns="">
+        <Id>{1060d52a-c0ce-4c5f-a334-01a7e2e0ab1e}</Id>
+        <Version>1.0.0.0</Version>
+        <DefaultName>mobject</DefaultName>
+      </LibraryCategory>
+    </LibraryCategories>
+    <SelectedLibraryCategories>
+      <Id xmlns="">{1060d52a-c0ce-4c5f-a334-01a7e2e0ab1e}</Id>
+    </SelectedLibraryCategories>
+    <CombineIds>true</CombineIds>
+  </PropertyGroup>
+  <ItemGroup>
+    <Folder Include="Animation" />
+    <Folder Include="_Internal" />
+    <Folder Include="_Internal\Display" />
+    <Folder Include="_Internal\DisplayBuffer" />
+    <Folder Include="_Internal\GraphicalElement" />
+    <Folder Include="_Internal\Hardware\EL2574" />
+    <Folder Include="_Internal\Hardware\EL2574\DUT" />
+    <Folder Include="_Internal\LedDevice" />
+    <Folder Include="_Internal\LedDevice\Interface" />
+    <Folder Include="_Internal\LedDevice\Null" />
+    <Folder Include="_Internal\Hardware" />
+    <Folder Include="_Internal\PixelFormat" />
+    <Folder Include="_Internal\Pixel" />
+    <Folder Include="_Internal\Scene" />
+    <Folder Include="_Internal\Symbols" />
+    <Folder Include="_Internal\Symbols\Interface" />
+    <Folder Include="DisplayBuffer" />
+    <Folder Include="Hardware" />
+    <Folder Include="Hardware\EL2574" />
+    <Folder Include="Hardware\Matrix" />
+    <Folder Include="Scene" />
+    <Folder Include="Symbols" />
+    <Folder Include="Symbols\Mono_16x16" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Animation\ArrayStoredAnimation.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="_Internal\DisplayBuffer\I_ReadableDisplayBuffer.TcIO">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="_Internal\DisplayBuffer\I_WritableDisplayBuffer.TcIO">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="_Internal\Display\I_Display.TcIO">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="_Internal\GraphicalElement\I_GraphicalElement.TcIO">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="_Internal\Hardware\EL2574\DUT\EL2574_ChannelExtendedModePdo.TcDUT">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="_Internal\Hardware\EL2574\DUT\EL2574_ChannelExtendedModePdo_I.TcDUT">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="_Internal\Hardware\EL2574\DUT\EL2574_ChannelExtendedModePdo_I_Status.TcDUT">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="_Internal\Hardware\EL2574\DUT\EL2574_ChannelExtendedModePdo_O.TcDUT">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="_Internal\Hardware\EL2574\DUT\EL2574_ChannelExtendedModePdo_O_ExtendedControl.TcDUT">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="_Internal\Hardware\EL2574\DUT\EL2574_ChannelExtendedModePdo_O_ExtendedControl_Segment.TcDUT">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="_Internal\LedDevice\Interface\I_LedDevice.TcIO">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="_Internal\LedDevice\LedDevice.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="_Internal\LedDevice\Null\NullLedDevice.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="_Internal\PixelFormat\E_PixelFormat.TcDUT">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="_Internal\Pixel\Pixel.TcDUT">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="_Internal\Scene\I_Scene.TcIO">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="_Internal\Symbols\Interface\I_MonoSymbol.TcIO">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="_Internal\Symbols\Interface\I_Symbol.TcIO">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="_Internal\Symbols\Mono_16x16.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="DisplayBuffer\DisplayBuffer.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Hardware\EL2574\EL2574_ChannelExtendedMode.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Hardware\Matrix\LedMatrix.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="PixelColors.TcGVL">
+      <SubType>Code</SubType>
+      <LinkAlways>true</LinkAlways>
+    </Compile>
+    <Compile Include="Scene\Scene.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Symbols\Mono_16x16\Mono_16x16_Alarm.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Symbols\Mono_16x16\Mono_16x16_BrakeWarning.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Symbols\Mono_16x16\Mono_16x16_CircleExclamation.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Symbols\Mono_16x16\Mono_16x16_DownArrow.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Symbols\Mono_16x16\Mono_16x16_LeftArrow.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Symbols\Mono_16x16\Mono_16x16_Play.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Symbols\Mono_16x16\Mono_16x16_RightArrow.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Symbols\Mono_16x16\Mono_16x16_Smile.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Symbols\Mono_16x16\Mono_16x16_Temperature.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Symbols\Mono_16x16\Mono_16x16_TemperatureDown.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Symbols\Mono_16x16\Mono_16x16_TemperatureUp.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Symbols\Mono_16x16\Mono_16x16_UpArrow.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Symbols\Mono_16x16\Mono_16x16_User.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="mobject-led.tmc">
+      <SubType>Content</SubType>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <PlaceholderReference Include="mobject-core">
+      <DefaultResolution>mobject-core, * (mobject)</DefaultResolution>
+      <Namespace>mobject_core</Namespace>
+    </PlaceholderReference>
+    <PlaceholderReference Include="Tc2_System">
+      <DefaultResolution>Tc2_System, * (Beckhoff Automation GmbH)</DefaultResolution>
+    </PlaceholderReference>
+  </ItemGroup>
+  <ItemGroup>
+    <PlaceholderResolution Include="mobject-core">
+      <Resolution>mobject-core, 0.7.0 (mobject)</Resolution>
+    </PlaceholderResolution>
+  </ItemGroup>
+  <ProjectExtensions>
+    <PlcProjectOptions>
+      <XmlArchive>
+        <Data>
+          <o xml:space="preserve" t="OptionKey">
+      <v n="Name">"&lt;ProjectRoot&gt;"</v>
+      <d n="SubKeys" t="Hashtable" ckt="String" cvt="OptionKey">
+        <v>{192FAD59-8248-4824-A8DE-9177C94C195A}</v>
+        <o>
+          <v n="Name">"{192FAD59-8248-4824-A8DE-9177C94C195A}"</v>
+          <d n="SubKeys" t="Hashtable" />
+          <d n="Values" t="Hashtable" />
+        </o>
+        <v>{29BD8D0C-3586-4548-BB48-497B9A01693F}</v>
+        <o>
+          <v n="Name">"{29BD8D0C-3586-4548-BB48-497B9A01693F}"</v>
+          <d n="SubKeys" t="Hashtable" ckt="String" cvt="OptionKey">
+            <v>Rules</v>
+            <o>
+              <v n="Name">"Rules"</v>
+              <d n="SubKeys" t="Hashtable" />
+              <d n="Values" t="Hashtable" />
+            </o>
+          </d>
+          <d n="Values" t="Hashtable" />
+        </o>
+        <v>{40450F57-0AA3-4216-96F3-5444ECB29763}</v>
+        <o>
+          <v n="Name">"{40450F57-0AA3-4216-96F3-5444ECB29763}"</v>
+          <d n="SubKeys" t="Hashtable" />
+          <d n="Values" t="Hashtable" ckt="String" cvt="String">
+            <v>ActiveVisuProfile</v>
+            <v>IR0whWr8bwfwBwAAiD2qpQAAAABVAgAA37x72QAAAAABAAAAAAAAAAEaUwB5AHMAdABlAG0ALgBTAHQAcgBpAG4AZwACTHsAZgA5ADUAYgBiADQAMgA2AC0ANQA1ADIANAAtADQAYgA0ADUALQA5ADQAMAAwAC0AZgBiADAAZgAyAGUANwA3AGUANQAxAGIAfQADCE4AYQBtAGUABDBUAHcAaQBuAEMAQQBUACAAMwAuADEAIABCAHUAaQBsAGQAIAA0ADAAMgA0AC4ANwAFFlAAcgBvAGYAaQBsAGUARABhAHQAYQAGTHsAMQA2AGUANQA1AGIANgAwAC0ANwAwADQAMwAtADQAYQA2ADMALQBiADYANQBiAC0ANgAxADQANwAxADMAOAA3ADgAZAA0ADIAfQAHEkwAaQBiAHIAYQByAGkAZQBzAAhMewAzAGIAZgBkADUANAA1ADkALQBiADAANwBmAC0ANABkADYAZQAtAGEAZQAxAGEALQBhADgAMwAzADUANgBhADUANQAxADQAMgB9AAlMewA5AGMAOQA1ADgAOQA2ADgALQAyAGMAOAA1AC0ANAAxAGIAYgAtADgAOAA3ADEALQA4ADkANQBmAGYAMQBmAGUAZABlADEAYQB9AAoOVgBlAHIAcwBpAG8AbgALBmkAbgB0AAwKVQBzAGEAZwBlAA0KVABpAHQAbABlAA4aVgBpAHMAdQBFAGwAZQBtAE0AZQB0AGUAcgAPDkMAbwBtAHAAYQBuAHkAEAxTAHkAcwB0AGUAbQARElYAaQBzAHUARQBsAGUAbQBzABIwVgBpAHMAdQBFAGwAZQBtAHMAUwBwAGUAYwBpAGEAbABDAG8AbgB0AHIAbwBsAHMAEyhWAGkAcwB1AEUAbABlAG0AcwBXAGkAbgBDAG8AbgB0AHIAbwBsAHMAFCRWAGkAcwB1AEUAbABlAG0AVABlAHgAdABFAGQAaQB0AG8AcgAVIlYAaQBzAHUATgBhAHQAaQB2AGUAQwBvAG4AdAByAG8AbAAWFHYAaQBzAHUAaQBuAHAAdQB0AHMAFwxzAHkAcwB0AGUAbQAYGFYAaQBzAHUARQBsAGUAbQBCAGEAcwBlABkmRABlAHYAUABsAGEAYwBlAGgAbwBsAGQAZQByAHMAVQBzAGUAZAAaCGIAbwBvAGwAGyJQAGwAdQBnAGkAbgBDAG8AbgBzAHQAcgBhAGkAbgB0AHMAHEx7ADQAMwBkADUAMgBiAGMAZQAtADkANAAyAGMALQA0ADQAZAA3AC0AOQBlADkANAAtADEAYgBmAGQAZgAzADEAMABlADYAMwBjAH0AHRxBAHQATABlAGEAcwB0AFYAZQByAHMAaQBvAG4AHhRQAGwAdQBnAGkAbgBHAHUAaQBkAB8WUwB5AHMAdABlAG0ALgBHAHUAaQBkACBIYQBmAGMAZAA1ADQANAA2AC0ANAA5ADEANAAtADQAZgBlADcALQBiAGIANwA4AC0AOQBiAGYAZgBlAGIANwAwAGYAZAAxADcAIRRVAHAAZABhAHQAZQBJAG4AZgBvACJMewBiADAAMwAzADYANgBhADgALQBiADUAYwAwAC0ANABiADkAYQAtAGEAMAAwAGUALQBlAGIAOAA2ADAAMQAxADEAMAA0AGMAMwB9ACMOVQBwAGQAYQB0AGUAcwAkTHsAMQA4ADYAOABmAGYAYwA5AC0AZQA0AGYAYwAtADQANQAzADIALQBhAGMAMAA2AC0AMQBlADMAOQBiAGIANQA1ADcAYgA2ADkAfQAlTHsAYQA1AGIAZAA0ADgAYwAzAC0AMABkADEANwAtADQAMQBiADUALQBiADEANgA0AC0ANQBmAGMANgBhAGQAMgBiADkANgBiADcAfQAmFk8AYgBqAGUAYwB0AHMAVAB5AHAAZQAnVFUAcABkAGEAdABlAEwAYQBuAGcAdQBhAGcAZQBNAG8AZABlAGwARgBvAHIAQwBvAG4AdgBlAHIAdABpAGIAbABlAEwAaQBiAHIAYQByAGkAZQBzACgQTABpAGIAVABpAHQAbABlACkUTABpAGIAQwBvAG0AcABhAG4AeQAqHlUAcABkAGEAdABlAFAAcgBvAHYAaQBkAGUAcgBzACs4UwB5AHMAdABlAG0ALgBDAG8AbABsAGUAYwB0AGkAbwBuAHMALgBIAGEAcwBoAHQAYQBiAGwAZQAsEnYAaQBzAHUAZQBsAGUAbQBzAC1INgBjAGIAMQBjAGQAZQAxAC0AZAA1AGQAYwAtADQAYQAzAGIALQA5ADAANQA0AC0AMgAxAGYAYQA3ADUANgBhADMAZgBhADQALihJAG4AdABlAHIAZgBhAGMAZQBWAGUAcgBzAGkAbwBuAEkAbgBmAG8AL0x7AGMANgAxADEAZQA0ADAAMAAtADcAZgBiADkALQA0AGMAMwA1AC0AYgA5AGEAYwAtADQAZQAzADEANABiADUAOQA5ADYANAAzAH0AMBhNAGEAagBvAHIAVgBlAHIAcwBpAG8AbgAxGE0AaQBuAG8AcgBWAGUAcgBzAGkAbwBuADIMTABlAGcAYQBjAHkAMzBMAGEAbgBnAHUAYQBnAGUATQBvAGQAZQBsAFYAZQByAHMAaQBvAG4ASQBuAGYAbwA0MEwAbwBhAGQATABpAGIAcgBhAHIAaQBlAHMASQBuAHQAbwBQAHIAbwBqAGUAYwB0ADUaQwBvAG0AcABhAHQAaQBiAGkAbABpAHQAeQDQAAIaA9ADAS0E0AUGGgfQBwgaAUUHCQjQAAkaBEUKCwQDAAAABQAAAA0AAAAAAAAA0AwLrQIAAADQDQEtDtAPAS0Q0AAJGgRFCgsEAwAAAAUAAAANAAAAKAAAANAMC60BAAAA0A0BLRHQDwEtENAACRoERQoLBAMAAAAFAAAADQAAAAAAAADQDAutAgAAANANAS0S0A8BLRDQAAkaBEUKCwQDAAAABQAAAA0AAAAUAAAA0AwLrQIAAADQDQEtE9APAS0Q0AAJGgRFCgsEAwAAAAUAAAANAAAAAAAAANAMC60CAAAA0A0BLRTQDwEtENAACRoERQoLBAMAAAAFAAAADQAAAAAAAADQDAutAgAAANANAS0V0A8BLRDQAAkaBEUKCwQDAAAABQAAAA0AAAAAAAAA0AwLrQIAAADQDQEtFtAPAS0X0AAJGgRFCgsEAwAAAAUAAAANAAAAKAAAANAMC60EAAAA0A0BLRjQDwEtENAZGq0BRRscAdAAHBoCRR0LBAMAAAAFAAAADQAAAAAAAADQHh8tINAhIhoCRSMkAtAAJRoFRQoLBAMAAAADAAAAAAAAAAoAAADQJgutAAAAANADAS0n0CgBLRHQKQEtENAAJRoFRQoLBAMAAAADAAAAAAAAAAoAAADQJgutAQAAANADAS0n0CgBLRHQKQEtEJoqKwFFAAEC0AABLSzQAAEtF9AAHy0t0C4vGgPQMAutAQAAANAxC60XAAAA0DIarQDQMy8aA9AwC60CAAAA0DELrQMAAADQMhqtANA0Gq0A0DUarQA=</v>
+          </d>
+        </o>
+      </d>
+      <d n="Values" t="Hashtable" />
+    </o>
+        </Data>
+        <TypeList>
+          <Type n="Hashtable">System.Collections.Hashtable</Type>
+          <Type n="OptionKey">{54dd0eac-a6d8-46f2-8c27-2f43c7e49861}</Type>
+          <Type n="String">System.String</Type>
+        </TypeList>
+      </XmlArchive>
+    </PlcProjectOptions>
+  </ProjectExtensions>
+</Project>

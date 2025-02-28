@@ -1,0 +1,30 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.15">
+  <Itf Name="I_MonoSymbol" Id="{1813fd47-3e7a-4b74-95bc-f71ea72690ff}">
+    <Declaration><![CDATA[INTERFACE I_MonoSymbol EXTENDS I_Symbol]]></Declaration>
+    <Property Name="BackgroundColor" Id="{ef9693ec-801c-48f6-9658-b92558797f91}">
+      <Declaration><![CDATA[PROPERTY PUBLIC BackgroundColor : Pixel]]></Declaration>
+      <Get Name="Get" Id="{c6a57c36-f26f-4690-ba93-c8eaf9cc2bd8}">
+        <Declaration><![CDATA[]]></Declaration>
+      </Get>
+      <Set Name="Set" Id="{d5d2c8cc-22d6-41a7-8b63-e12c1016fc09}">
+        <Declaration><![CDATA[]]></Declaration>
+      </Set>
+    </Property>
+    <Property Name="ForgroundColor" Id="{d202bc22-246d-4951-b274-45b865d0230c}">
+      <Declaration><![CDATA[PROPERTY PUBLIC ForgroundColor : Pixel]]></Declaration>
+      <Get Name="Get" Id="{a714be56-9f09-425a-8340-b289ff68b733}">
+        <Declaration><![CDATA[]]></Declaration>
+      </Get>
+      <Set Name="Set" Id="{e25eea17-fe7e-4ca9-9230-b1fa516f58f0}">
+        <Declaration><![CDATA[]]></Declaration>
+      </Set>
+    </Property>
+    <Method Name="InvertColor" Id="{ca967492-af25-4a23-9511-2e7f4f31b36b}">
+      <Declaration><![CDATA[METHOD PUBLIC InvertColor
+VAR_INPUT
+END_VAR
+]]></Declaration>
+    </Method>
+  </Itf>
+</TcPlcObject>

@@ -1,0 +1,168 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.15">
+  <POU Name="EL2574_ChannelExtendedMode" Id="{c77e0602-7aaf-4c55-aa4f-6d9a09b9d332}" SpecialFunc="None">
+    <Declaration><![CDATA[{attribute 'linkalways'} 
+{attribute 'no_explicit_call' := 'This FB is a CLASS and must be accessed using methods or properties'}
+{attribute 'enable_dynamic_creation'}
+FUNCTION_BLOCK EL2574_ChannelExtendedMode
+VAR
+	pdo : EL2574_ChannelExtendedModePdo;
+	nullLedDevice : NullLedDevice;
+	connectedTo : I_LedDevice := NullLedDevice;
+	
+	totalPixels : UDINT;
+	sendBuffer : ARRAY [0..MAX_PIXELS - 1] OF UDINT;
+	sendSegmentCount : USINT;
+	currentSegment : USINT;
+	state : (IDLE, INITIALIZING, SEND_SEGMENT, TRIGGER_FRAME_SEND, WAIT_FOR_FRAME_SEND_COMPLETE, ERROR);
+END_VAR
+VAR CONSTANT
+	MAX_PIXELS : UDINT := 2048;
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[]]></ST>
+    </Implementation>
+    <Method Name="ConnectTo" Id="{41fbaee9-fd86-4722-aa63-27d7796f2bbc}">
+      <Declaration><![CDATA[METHOD PUBLIC ConnectTo
+VAR_INPUT
+	LedDevice : I_LedDevice;
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[IF LedDevice = 0  THEN
+	connectedTo := nullLedDevice;
+END_IF
+
+IF LedDevice = connectedTo THEN
+	RETURN;
+END_IF
+
+connectedTo := LedDevice;]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="CyclicCall" Id="{d2aa94f5-d8b3-4f92-bbb4-e8b15fb4e5ac}">
+      <Declaration><![CDATA[METHOD PUBLIC CyclicCall
+VAR_INPUT
+END_VAR
+VAR
+	totalSegments : UDINT;
+	currentPixel : UDINT;
+	i : UDINT;
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[CASE state OF
+	
+	IDLE : 
+
+		IF connectedTo = 0 THEN
+			RETURN;
+		END_IF
+		
+		connectedTo.ResetPixelPointer();
+		currentPixel := 0;
+		
+		// fetch the buffer
+		WHILE connectedTo.TryGetNextPixel(sendBuffer[currentPixel]) DO
+			currentPixel := currentPixel + 1;
+		END_WHILE
+		
+		totalPixels := currentPixel;
+		
+		// reset the remainder of the buffer
+		FOR i := currentPixel + 1 TO MAX_PIXELS -1 DO 
+			sendBuffer[i] := 16#0;
+		END_FOR
+		
+		state := INITIALIZING;
+		
+	ERROR : RETURN;
+	
+	INITIALIZING :
+	
+		// initialize local variables
+		currentSegment := 0;
+		totalSegments := totalPixels / 8;
+		sendSegmentCount := UDINT_TO_USINT(totalSegments);
+	
+		// reset the card to a known state 
+		pdo.Output.ExtendedControl.Index := 0;
+		pdo.Output.ExtendedControl.Send := FALSE;
+		pdo.Output.ExtendedControl.Update := FALSE;
+		pdo.Output.ExtendedControl.Write := FALSE;
+		pdo.Output.ExtendedControl.Segment.Element_0 := 0;
+		pdo.Output.ExtendedControl.Segment.Element_1 := 0;
+		pdo.Output.ExtendedControl.Segment.Element_2 := 0;
+		pdo.Output.ExtendedControl.Segment.Element_3 := 0;
+		pdo.Output.ExtendedControl.Segment.Element_4 := 0;
+		pdo.Output.ExtendedControl.Segment.Element_5 := 0;
+		pdo.Output.ExtendedControl.Segment.Element_6 := 0;
+		pdo.Output.ExtendedControl.Segment.Element_7 := 0;
+		
+		// start sending....
+		state := SEND_SEGMENT;
+
+	SEND_SEGMENT :
+		
+		pdo.Output.ExtendedControl.Index := currentSegment;
+		pdo.Output.ExtendedControl.Segment.Element_0 := sendBuffer[currentSegment * 8 + 0];
+		pdo.Output.ExtendedControl.Segment.Element_1 := sendBuffer[currentSegment * 8 + 1];
+		pdo.Output.ExtendedControl.Segment.Element_2 := sendBuffer[currentSegment * 8 + 2];
+		pdo.Output.ExtendedControl.Segment.Element_3 := sendBuffer[currentSegment * 8 + 3];
+		pdo.Output.ExtendedControl.Segment.Element_4 := sendBuffer[currentSegment * 8 + 4];
+		pdo.Output.ExtendedControl.Segment.Element_5 := sendBuffer[currentSegment * 8 + 5];
+		pdo.Output.ExtendedControl.Segment.Element_6 := sendBuffer[currentSegment * 8 + 6];
+		pdo.Output.ExtendedControl.Segment.Element_7 := sendBuffer[currentSegment * 8 + 7];
+		pdo.Output.ExtendedControl.Write := TRUE;
+		pdo.Output.ExtendedControl.Execute := NOT pdo.Output.ExtendedControl.Execute;
+		
+		IF currentSegment = sendSegmentCount THEN
+			state := TRIGGER_FRAME_SEND;
+		ELSE
+			currentSegment := currentSegment + 1;
+		END_IF
+		
+	TRIGGER_FRAME_SEND : 
+	
+		pdo.Output.ExtendedControl.Write := FALSE;
+		pdo.Output.ExtendedControl.Update := TRUE;
+		pdo.Output.ExtendedControl.Send := TRUE;
+		pdo.Output.ExtendedControl.Execute := NOT pdo.Output.ExtendedControl.Execute;
+		
+		state := WAIT_FOR_FRAME_SEND_COMPLETE;
+		
+	WAIT_FOR_FRAME_SEND_COMPLETE:
+	
+		IF NOT pdo.Input.Status.Busy THEN
+			pdo.Output.ExtendedControl.Update := FALSE;
+			pdo.Output.ExtendedControl.Send := FALSE;
+			state := IDLE;
+		END_IF
+
+		
+END_CASE]]></ST>
+      </Implementation>
+    </Method>
+    <Property Name="HasError" Id="{5a718efc-9c4f-4247-a2c4-d25775b119f5}">
+      <Declaration><![CDATA[PROPERTY PUBLIC HasError : BOOL]]></Declaration>
+      <Get Name="Get" Id="{e8bfc162-044e-473c-aecf-568753f7942e}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[HasError := state = Error;]]></ST>
+        </Implementation>
+      </Get>
+    </Property>
+    <Property Name="IsBusy" Id="{c370df19-15d0-40d4-8cd7-92366e3ef8e0}">
+      <Declaration><![CDATA[PROPERTY PUBLIC IsBusy : BOOL]]></Declaration>
+      <Get Name="Get" Id="{1f3a6abb-df56-4f12-bf85-2a7df245e1bc}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[IsBusy := not(state = IDLE or_else state = ERROR);]]></ST>
+        </Implementation>
+      </Get>
+    </Property>
+  </POU>
+</TcPlcObject>

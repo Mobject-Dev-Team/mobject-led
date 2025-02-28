@@ -1,0 +1,27 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.15">
+  <Itf Name="I_Scene" Id="{35ca3e32-37b4-40c2-bab0-214e2887dc32}">
+    <Declaration><![CDATA[INTERFACE I_Scene EXTENDS I_GraphicalElement
+]]></Declaration>
+    <Method Name="Clear" Id="{cf9f4d6a-f03f-40b9-ae71-8dc4ab507ac8}">
+      <Declaration><![CDATA[METHOD Clear
+VAR_INPUT
+END_VAR
+]]></Declaration>
+    </Method>
+    <Method Name="TryAddElement" Id="{21b340d2-6fff-4a69-9b60-f0a6e1a6b7f8}">
+      <Declaration><![CDATA[METHOD PUBLIC TryAddElement
+VAR_INPUT
+	GraphicalElement : I_GraphicalElement;
+END_VAR
+]]></Declaration>
+    </Method>
+    <Method Name="TryRemoveElement" Id="{07a20602-4253-45ac-ac57-add07c071aef}">
+      <Declaration><![CDATA[METHOD PUBLIC TryRemoveElement
+VAR_INPUT
+	GraphicalElement : I_GraphicalElement;
+END_VAR
+]]></Declaration>
+    </Method>
+  </Itf>
+</TcPlcObject>

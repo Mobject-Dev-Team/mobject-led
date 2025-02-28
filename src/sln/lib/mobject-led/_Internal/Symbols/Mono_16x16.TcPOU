@@ -1,0 +1,286 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.15">
+  <POU Name="Mono_16x16" Id="{a45cd131-bf83-4c32-8cbb-13e9fa7b5f54}" SpecialFunc="None">
+    <Declaration><![CDATA[{attribute 'linkalways'} 
+{attribute 'no_explicit_call' := 'This FB is a CLASS and must be accessed using methods or properties'}
+{attribute 'enable_dynamic_creation'}
+FUNCTION_BLOCK ABSTRACT Mono_16x16 IMPLEMENTS I_MonoSymbol
+VAR
+	_x : DINT;
+	_y : DINT;
+	_flipX : BOOL;
+	_flipY : BOOL;
+	_rotation : UINT;
+	_forgroundColor : Pixel := WHITE;
+	_backgroundColor : Pixel := TRANSPARENT;
+END_VAR
+VAR CONSTANT
+	SYMBOL_WIDTH : UDINT := 16;
+	SYMBOL_HEIGHT : UDINT := 16;
+	WHITE : Pixel := 16#FFFFFFFF;
+	TRANSPARENT : Pixel := 16#00000000;
+END_VAR]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[]]></ST>
+    </Implementation>
+    <Folder Name="Constructor" Id="{df9c3f85-5bf8-496e-8b7b-8687cae442d5}" />
+    <Folder Name="Protected" Id="{3d426306-89b9-46d1-bafe-4478a8eb200c}" />
+    <Property Name="BackgroundColor" Id="{078567f2-722e-4f83-a174-c5f9725eeca5}">
+      <Declaration><![CDATA[PROPERTY PUBLIC BackgroundColor : Pixel]]></Declaration>
+      <Get Name="Get" Id="{19769724-807c-44ed-834e-8153d4fa1529}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[BackgroundColor := _backgroundColor;]]></ST>
+        </Implementation>
+      </Get>
+      <Set Name="Set" Id="{7081eee1-70fe-43c9-b119-35e730f2124d}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[_backgroundColor := BackgroundColor;]]></ST>
+        </Implementation>
+      </Set>
+    </Property>
+    <Method Name="FB_init" Id="{09c17b69-c3d0-491f-9126-6a98b798ea6e}" FolderPath="Constructor\">
+      <Declaration><![CDATA[METHOD FB_init : BOOL
+VAR_INPUT
+	bInitRetains : BOOL; // if TRUE, the retain variables are initialized (warm start / cold start)
+	bInCopyCode : BOOL;  // if TRUE, the instance afterwards gets moved into the copy code (online change)
+	Forground : Pixel;
+	Background : Pixel;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[_forgroundColor := Forground;
+_backgroundColor := Background;]]></ST>
+      </Implementation>
+    </Method>
+    <Property Name="FlipX" Id="{0566e97c-3844-45a8-9223-ebcea08d1628}">
+      <Declaration><![CDATA[PROPERTY PUBLIC FlipX : BOOL]]></Declaration>
+      <Get Name="Get" Id="{949f4d9a-5e3b-4776-8e27-8d1c7dd999bf}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[FlipX := _flipX;]]></ST>
+        </Implementation>
+      </Get>
+      <Set Name="Set" Id="{00f61c14-46ef-4570-84b3-228cae5a4197}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[_flipX := FlipX;]]></ST>
+        </Implementation>
+      </Set>
+    </Property>
+    <Property Name="FlipY" Id="{0062f965-2727-4585-a305-542728ffe5f9}">
+      <Declaration><![CDATA[PROPERTY PUBLIC FlipY : BOOL]]></Declaration>
+      <Get Name="Get" Id="{48b79f34-055e-4db8-8a13-cb4cd5def6b0}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[FlipY := _flipY;]]></ST>
+        </Implementation>
+      </Get>
+      <Set Name="Set" Id="{1abea190-41ac-4c9f-8187-af38052d4fc5}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[_flipY := FlipY;]]></ST>
+        </Implementation>
+      </Set>
+    </Property>
+    <Property Name="ForgroundColor" Id="{bd03dff0-51e6-4499-b4e1-bb636608d9c7}">
+      <Declaration><![CDATA[PROPERTY PUBLIC ForgroundColor : Pixel]]></Declaration>
+      <Get Name="Get" Id="{3028d63a-c4c2-4fed-bc9d-0626b7fe8379}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[ForgroundColor := _forgroundColor;]]></ST>
+        </Implementation>
+      </Get>
+      <Set Name="Set" Id="{6e22c41d-074f-4a75-8e29-839aed572cf6}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[_forgroundColor := ForgroundColor;]]></ST>
+        </Implementation>
+      </Set>
+    </Property>
+    <Property Name="Height" Id="{d785774e-8761-4497-a9a8-bc29248f1253}">
+      <Declaration><![CDATA[PROPERTY PUBLIC Height : UDINT]]></Declaration>
+      <Get Name="Get" Id="{dc8446cc-5fcb-4b1b-b717-3356ec38f314}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[Height := SYMBOL_HEIGHT;]]></ST>
+        </Implementation>
+      </Get>
+    </Property>
+    <Method Name="InvertColor" Id="{22ae7de2-1de6-450b-b30d-1ffecf517911}">
+      <Declaration><![CDATA[METHOD PUBLIC InvertColor
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[]]></ST>
+      </Implementation>
+    </Method>
+    <Property Name="Pixels" Id="{0b836810-70ef-4772-ac15-50670076ea02}" FolderPath="Protected\">
+      <Declaration><![CDATA[PROPERTY PROTECTED ABSTRACT Pixels : REFERENCE TO ARRAY [0..255] of BYTE]]></Declaration>
+      <Get Name="Get" Id="{94a48e5d-fb97-4aec-ace3-5d88fec4c415}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[]]></ST>
+        </Implementation>
+      </Get>
+    </Property>
+    <Method Name="RenderTo" Id="{7a0d4c53-a2ad-4617-b0d2-6a1a87cde109}">
+      <Declaration><![CDATA[METHOD PUBLIC RenderTo
+VAR_INPUT
+	Destination : I_WritableDisplayBuffer;
+END_VAR
+VAR
+	row : UDINT;
+	column : UDINT;
+	newRow : UDINT;
+	newColumn : UDINT;
+	pixelOffset : UDINT;
+	destinationX : DINT;
+	destinationY : DINT;
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[FOR row := 0 TO SYMBOL_HEIGHT - 1 DO
+	FOR column := 0 TO SYMBOL_WIDTH - 1 DO
+
+		CASE _rotation OF
+			
+			0:
+				newColumn := column;
+				newRow := row;
+			90:
+				newColumn := SYMBOL_HEIGHT - 1 - row;
+				newRow := column;
+			180:
+				newColumn := SYMBOL_WIDTH - 1 - column;
+				newRow := SYMBOL_HEIGHT - 1 - row;
+			270:
+				newColumn := row;
+				newRow := SYMBOL_WIDTH - 1 - column;
+			
+		END_CASE
+
+		IF _flipX THEN
+			newColumn := SYMBOL_WIDTH - 1 - newColumn;
+		END_IF
+
+		IF _flipY THEN
+			newRow := SYMBOL_HEIGHT - 1 - newRow;
+		END_IF
+
+		pixelOffset := (newRow * SYMBOL_WIDTH) + newColumn;
+		destinationX := UDINT_TO_DINT(column) + _x;
+		destinationY := UDINT_TO_DINT(row) + _y;
+		
+		IF Pixels[pixelOffset] = 0 THEN
+			Destination.SetPixel(destinationX, destinationY, _backgroundColor);
+		ELSE
+			Destination.SetPixel(destinationX, destinationY, _forgroundColor);
+		END_IF
+
+	END_FOR
+END_FOR
+]]></ST>
+      </Implementation>
+    </Method>
+    <Property Name="Rotation" Id="{c7f91e22-f202-4a1c-8ca3-3373ccad6662}">
+      <Declaration><![CDATA[PROPERTY PUBLIC Rotation : UINT]]></Declaration>
+      <Get Name="Get" Id="{fb5c5158-7b2e-4b95-b44b-4411a2a0500e}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[Rotation := _rotation;]]></ST>
+        </Implementation>
+      </Get>
+      <Set Name="Set" Id="{e5ee3bf0-ad71-427a-91ed-41fe16efe158}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[_rotation := Rotation;]]></ST>
+        </Implementation>
+      </Set>
+    </Property>
+    <Method Name="Update" Id="{334ad65b-1793-4541-81a4-73d878924c0f}">
+      <Declaration><![CDATA[METHOD PUBLIC Update
+VAR_INPUT
+	DeltaTimeInMs : UDINT;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[// not required for static symbols]]></ST>
+      </Implementation>
+    </Method>
+    <Property Name="Width" Id="{068a0260-d519-4ecc-955c-9c93cd0c92cb}">
+      <Declaration><![CDATA[PROPERTY PUBLIC Width : UDINT]]></Declaration>
+      <Get Name="Get" Id="{63b90980-474e-4661-81b8-18dfad1cea99}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[Width := SYMBOL_WIDTH;]]></ST>
+        </Implementation>
+      </Get>
+    </Property>
+    <Property Name="X" Id="{9a0e15a2-0649-4551-ba69-c350f588acad}">
+      <Declaration><![CDATA[PROPERTY PUBLIC X : DINT]]></Declaration>
+      <Get Name="Get" Id="{5085c71c-5246-4488-af8e-5aa35bc7cfbd}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[X := _x;]]></ST>
+        </Implementation>
+      </Get>
+      <Set Name="Set" Id="{87048146-5713-48d1-83d5-5c3c1ebb3026}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[_x := X;]]></ST>
+        </Implementation>
+      </Set>
+    </Property>
+    <Property Name="Y" Id="{7f168d32-f13c-470f-bfb0-7162de9c4f6c}">
+      <Declaration><![CDATA[PROPERTY PUBLIC Y : DINT]]></Declaration>
+      <Get Name="Get" Id="{89d29b1f-4e6c-4c03-ab95-d3d8cfb6c469}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[Y := _y;]]></ST>
+        </Implementation>
+      </Get>
+      <Set Name="Set" Id="{179a061d-fa0f-47fa-a1cf-3e5fdfc53d5e}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[_y := Y;]]></ST>
+        </Implementation>
+      </Set>
+    </Property>
+  </POU>
+</TcPlcObject>

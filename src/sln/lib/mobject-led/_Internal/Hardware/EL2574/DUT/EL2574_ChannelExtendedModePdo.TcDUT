@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.15">
+  <DUT Name="EL2574_ChannelExtendedModePdo" Id="{0eda9451-22d7-09ff-2ca4-738fe99528b8}">
+    <Declaration><![CDATA[{attribute 'GUID' := 'B00DF5E7-F5C8-8EB2-0747-F6A66456AF18'}
+{attribute 'pack_mode' := '1'}
+TYPE EL2574_ChannelExtendedModePdo :
+STRUCT
+		{attribute 'GUID' := 'B00DF5E8-F5C8-8EB2-0747-F6A66456AF18'}
+		Input AT %I* : EL2574_ChannelExtendedModePdo_I;
+		{attribute 'GUID' := 'B00DF5E9-F5C8-8EB2-0747-F6A66456AF18'}
+		Output AT %Q* : EL2574_ChannelExtendedModePdo_O;
+	END_STRUCT
+END_TYPE
+]]></Declaration>
+  </DUT>
+</TcPlcObject>

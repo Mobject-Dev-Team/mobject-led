@@ -1,0 +1,20 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.15">
+  <Itf Name="I_GraphicalElement" Id="{503bc0d5-070c-4d9a-aed8-9f6a77673178}">
+    <Declaration><![CDATA[INTERFACE I_GraphicalElement]]></Declaration>
+    <Method Name="RenderTo" Id="{c635a1b8-481b-4dbb-a836-b86a799919c0}">
+      <Declaration><![CDATA[METHOD PUBLIC RenderTo
+VAR_INPUT
+	Destination : I_WritableDisplayBuffer;
+END_VAR
+]]></Declaration>
+    </Method>
+    <Method Name="Update" Id="{0a6a7d98-db46-444e-bfd6-a1e2a2fc39cc}">
+      <Declaration><![CDATA[METHOD PUBLIC Update
+VAR_INPUT
+	DeltaTimeInMs : UDINT;
+END_VAR
+]]></Declaration>
+    </Method>
+  </Itf>
+</TcPlcObject>

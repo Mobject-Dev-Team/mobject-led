@@ -1,0 +1,230 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.15">
+  <POU Name="ArrayStoredAnimation" Id="{e3f2495e-b31f-49e4-ab59-a0a69880fc3f}" SpecialFunc="None">
+    <Declaration><![CDATA[{attribute 'linkalways'} 
+{attribute 'no_explicit_call' := 'This FB is a CLASS and must be accessed using methods or properties'}
+{attribute 'enable_dynamic_creation'}
+FUNCTION_BLOCK ArrayStoredAnimation IMPLEMENTS I_GraphicalElement
+VAR
+	// setup
+	_width : UDINT;
+	_height : UDINT;
+	
+	// buffer
+	expectedFrameSizeInBytes : UDINT;
+	frameCount : UDINT;
+	pAnimationFrameData : POINTER TO Pixel;
+	nAnimationFrameData : UDINT;
+	
+	// animation
+	currentFrameIndex : UDINT;
+	pCurrentFrame : POINTER TO Pixel;
+	elapsedTimeInMs : UDINT;
+END_VAR]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[]]></ST>
+    </Implementation>
+    <Folder Name="Constructor" Id="{1a978f14-7092-4ac7-a4f9-23de141de377}" />
+    <Folder Name="Destructor" Id="{eb29d022-bff4-4e52-9b3a-3c47b08c959a}" />
+    <Folder Name="Private" Id="{264eddcd-c2af-4a5c-a439-0f35821817be}" />
+    <Method Name="FB_exit" Id="{a764a119-8ad1-405e-a522-476e79e3af5c}" FolderPath="Destructor\">
+      <Declaration><![CDATA[METHOD FB_exit : BOOL
+VAR_INPUT
+	bInCopyCode : BOOL; // if TRUE, the exit method is called for exiting an instance that is copied afterwards (online change).
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[IF bInCopyCode THEN
+	RETURN;
+END_IF
+
+IF pAnimationFrameData = 0 THEN
+	RETURN;
+END_IF
+
+__DELETE(pAnimationFrameData);]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="FB_init" Id="{d0db9074-5f42-45c1-a0b2-09a609260fe3}" FolderPath="Constructor\">
+      <Declaration><![CDATA[METHOD FB_init : BOOL
+VAR_INPUT
+	bInitRetains : BOOL; // if TRUE, the retain variables are initialized (warm start / cold start)
+	bInCopyCode : BOOL;  // if TRUE, the instance afterwards gets moved into the copy code (online change)
+	Width : UDINT;
+	Height : UDINT;
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[_width := Width;
+_height := Height;
+UpdateExpectedFrameSizeInBytes();]]></ST>
+      </Implementation>
+    </Method>
+    <Property Name="Height" Id="{0b9cc512-83c7-4991-aeb0-48d4092257b5}">
+      <Declaration><![CDATA[PROPERTY PUBLIC Height : UDINT]]></Declaration>
+      <Get Name="Get" Id="{526cdc1f-eb5f-47cb-8c1b-2e9591986e8b}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[Height := _height;]]></ST>
+        </Implementation>
+      </Get>
+    </Property>
+    <Method Name="RenderTo" Id="{dcc91d84-2a11-4f17-bf96-8f7cd04da4fe}">
+      <Declaration><![CDATA[METHOD PUBLIC RenderTo
+VAR_INPUT
+	Destination : I_WritableDisplayBuffer;
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[// needs implementation
+
+//IF X > _width THEN
+//	RETURN;
+//END_IF
+
+//IF Y > _height THEN
+//	RETURN;
+//END_IF
+
+//IF frameCount = 0 THEN
+//	RETURN;
+//END_IF
+
+//offset := (y * width) + x;
+//Destination := pCurrentFrame[offset];
+//GetPixel := TRUE;]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="Reset" Id="{b1f9e90c-8702-4043-8879-f6f20775e803}">
+      <Declaration><![CDATA[METHOD PUBLIC Reset : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[Reset := TryGoToFrame(0);]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="ResetAnimation" Id="{d01942ec-5162-4b90-8fea-3a23c016fd88}" FolderPath="Private\">
+      <Declaration><![CDATA[METHOD PRIVATE ResetAnimation
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[currentFrameIndex := 0;
+pCurrentFrame := pAnimationFrameData;]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="TryAddFrame" Id="{8e8faa12-4a4f-4869-bb58-c7ea96554510}">
+      <Declaration><![CDATA[METHOD PUBLIC TryAddFrame : BOOL
+VAR_INPUT
+	FrameDataArray : ANY;
+END_VAR
+VAR
+	newFrameCount : UDINT;
+	newAnimationDataSize : UDINT;
+	pNewAnimationFrameData : POINTER TO pixel;
+	pNewFrameStart : POINTER TO pixel; 
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[IF FrameDataArray.pValue = 0 THEN
+	RETURN;
+END_IF
+
+IF FrameDataArray.diSize = 0 THEN
+	RETURN;
+END_IF
+
+IF FrameDataArray.diSize <> expectedFrameSizeInBytes THEN
+	RETURN;
+END_IF
+
+// setup the new buffer (one frame bigger than previous)
+newFrameCount := frameCount + 1;
+newAnimationDataSize := expectedFrameSizeInBytes * newFrameCount;
+pNewAnimationFrameData := __NEW(BYTE, newAnimationDataSize);
+
+// copy the old data across if available;
+IF nAnimationFrameData > 0 THEN
+	memcpy(pNewAnimationFrameData, pAnimationFrameData, nAnimationFrameData); 
+	__DELETE(pAnimationFrameData);
+	pAnimationFrameData := 0;
+	nAnimationFrameData := 0;
+END_IF
+
+// copy the supplied frame data to the end of the new buffer.
+pNewFrameStart := pNewAnimationFrameData + (frameCount * expectedFrameSizeInBytes);
+memcpy(pNewFrameStart, FrameDataArray.pValue, FrameDataArray.diSize); 
+
+// update internal values to the new values.
+pAnimationFrameData := pNewAnimationFrameData;
+nAnimationFrameData := newAnimationDataSize;
+frameCount := newFrameCount;
+
+// reset animation
+ResetAnimation();
+
+// success
+TryAddFrame := TRUE;]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="TryGoToFrame" Id="{aa28f4cb-cb02-4971-a726-a5e872342ef8}">
+      <Declaration><![CDATA[METHOD PUBLIC TryGoToFrame : BOOL
+VAR_INPUT
+	AnimationFrameIndex : UDINT;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[IF frameCount = 0 THEN 
+	RETURN;
+END_IF
+
+IF AnimationFrameIndex > frameCount THEN
+	RETURN;
+END_IF
+
+currentFrameIndex := AnimationFrameIndex;
+pCurrentFrame := pAnimationFrameData + (currentFrameIndex * expectedFrameSizeInBytes);
+TryGoToFrame := TRUE;]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="TryGoToNextFrame" Id="{84ccc713-5d21-4a8c-901d-247887d41287}">
+      <Declaration><![CDATA[METHOD PUBLIC TryGoToNextFrame : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[TryGoToNextFrame := TryGoToFrame(currentFrameIndex + 1);]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="Update" Id="{4f462289-da64-4817-bf0c-16b8288a772b}">
+      <Declaration><![CDATA[METHOD PUBLIC Update
+VAR_INPUT
+	DeltaTimeInMs : UDINT;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[// not implemented]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="UpdateExpectedFrameSizeInBytes" Id="{99a7d899-95b4-4be5-9e10-c736a02863e7}" FolderPath="Private\">
+      <Declaration><![CDATA[METHOD PRIVATE UpdateExpectedFrameSizeInBytes
+VAR
+	tempPixel : Pixel;
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[expectedFrameSizeInBytes := SIZEOF(tempPixel) * this^._width * this^._height;]]></ST>
+      </Implementation>
+    </Method>
+    <Property Name="Width" Id="{be7d02bf-1f06-4205-9d60-2f532271b3a9}">
+      <Declaration><![CDATA[PROPERTY PUBLIC Width : UDINT]]></Declaration>
+      <Get Name="Get" Id="{9de9436d-fbd7-4cb8-9606-c6d6b4c014e6}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[Width := _width;]]></ST>
+        </Implementation>
+      </Get>
+    </Property>
+  </POU>
+</TcPlcObject>

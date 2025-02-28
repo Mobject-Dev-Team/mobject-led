@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<TcSmProject xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://www.beckhoff.com/schemas/2012/07/TcSmProject" TcSmVersion="1.0" TcVersion="3.1.4024.65">
+	<DataTypes>
+		<DataType>
+			<Name GUID="{BF2E804B-50B1-422C-8691-0AC6327A242A}" PersistentType="true">NewType</Name>
+			<BitSize>8</BitSize>
+			<BaseType GUID="{18071995-0000-0000-0000-000000000001}">BYTE</BaseType>
+		</DataType>
+	</DataTypes>
+	<Project ProjectGUID="{CCA4253C-BC05-48BF-A92A-DDFFD29D3134}" Target64Bit="true" ShowHideConfigurations="#x6">
+		<Plc>
+			<Project File="mobject-led.xti"/>
+		</Plc>
+	</Project>
+</TcSmProject>

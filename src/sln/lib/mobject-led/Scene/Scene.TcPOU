@@ -1,0 +1,97 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.15">
+  <POU Name="Scene" Id="{47179599-057e-40d4-8e43-57f30a2a9f4f}" SpecialFunc="None">
+    <Declaration><![CDATA[{attribute 'linkalways'} 
+{attribute 'no_explicit_call' := 'This FB is a CLASS and must be accessed using methods or properties'}
+{attribute 'enable_dynamic_creation'}
+FUNCTION_BLOCK Scene
+VAR
+	animations : Queue;
+	elements : Queue;
+END_VAR]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[]]></ST>
+    </Implementation>
+    <Method Name="AddAnimation" Id="{c36236e6-f121-476c-9666-787c5f51975e}">
+      <Declaration><![CDATA[METHOD PUBLIC AddAnimation
+VAR_INPUT
+	GraphicalElement : I_GraphicalElement;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[elements.Enqueue(GraphicalElement);]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="AddElement" Id="{bfc35db7-ee79-4972-b28b-1ceb29d3437f}">
+      <Declaration><![CDATA[METHOD PUBLIC AddElement
+VAR_INPUT
+	GraphicalElement : I_GraphicalElement;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[elements.Enqueue(GraphicalElement);]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="Clear" Id="{99019aaf-97e0-4529-bccf-c35ea48986c2}">
+      <Declaration><![CDATA[METHOD Clear
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[elements.Clear();]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="RenderTo" Id="{e7e2245b-7946-4791-ae16-16da2564931f}">
+      <Declaration><![CDATA[METHOD PUBLIC RenderTo
+VAR_INPUT
+	Destination : I_WritableDisplayBuffer;
+END_VAR
+VAR
+	enumerator : I_ForwardEnumerator;
+	element : I_GraphicalElement;
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[enumerator := elements.GetEnumerator();
+
+WHILE enumerator.MoveNext() DO
+	IF enumerator.TryGet(element) THEN
+		element.RenderTo(Destination);
+	END_IF
+END_WHILE
+
+enumerator.Dispose();]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="TryRemoveElement" Id="{3a32d136-e86d-4332-8582-d02683c0e6c0}">
+      <Declaration><![CDATA[METHOD PUBLIC TryRemoveElement : BOOL
+VAR_INPUT
+	GraphicalElement : I_GraphicalElement;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[TryRemoveElement := elements.TryRemoveItem(GraphicalElement);]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="Update" Id="{6848dc00-eb64-426f-abf8-9d8525aefce0}">
+      <Declaration><![CDATA[METHOD PUBLIC Update
+VAR_INPUT
+	DeltaTimeInMs : UDINT;
+END_VAR
+VAR
+	enumerator : I_ForwardEnumerator;
+	element : I_GraphicalElement;
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[enumerator := elements.GetEnumerator();
+
+WHILE enumerator.MoveNext() DO
+	IF enumerator.TryGet(element) THEN
+		element.Update(DeltaTimeInMs);
+	END_IF
+END_WHILE
+
+enumerator.Dispose();]]></ST>
+      </Implementation>
+    </Method>
+  </POU>
+</TcPlcObject>
