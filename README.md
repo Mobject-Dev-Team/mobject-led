@@ -26,7 +26,7 @@ mobject's goal is to be a lightweight solution to typical oop problems.
 
 ## Documentation
 
-The documentation for this project can be found [here](http://graph.mobject.org/#/).
+The documentation for this project can be found [here](http://led.mobject.org/#/).
 
 ## Versions
 
